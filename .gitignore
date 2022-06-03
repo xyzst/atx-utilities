@@ -1,0 +1,5 @@
+.idea
+.pants.d
+.pids
+*.iml
+output.csv
