@@ -17,7 +17,7 @@ func main() {
 
 	var c = processor.CsvFile{}
 	var proc = c.New("output.csv").(*processor.CsvFile)
-	err := proc.Write([]string{"address", "city", "state", "zip_code", "district", "district_url", "confidence_score"})
+	err := proc.Write([]string{"address", "city", "state", "zip_code", "district", "district_url", "confidence_score", "flagged?"})
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -88,7 +88,7 @@ func main() {
 		match, err := matches.GetLikelyCandidate()
 		if err != nil {
 			log.Printf("⚠️ warn: no match found for %s %s %s %s, will 🚩 address as invalid (confidence_core: 0) for manual review", address, city, state, zip)
-			err = proc.Write([]string{address, city, state, zip, "", "", "0"})
+			err = proc.Write([]string{address, city, state, zip, "", "", "0", "🚩"})
 			if err != nil {
 				log.Fatal(err)
 			}
@@ -149,7 +149,12 @@ func main() {
 
 		district.Candidate = match
 
-		err = proc.Write([]string{address, city, state, zip, strconv.FormatInt(district.Features[0].Attributes.CouncilDistrict, 10), district.Features[0].Attributes.CouncilDistrictPath, strconv.FormatFloat(district.Candidate.Score, 'f', 3, 64)})
+		if len(district.Features) == 0 {
+			err = proc.Write([]string{address, city, state, zip, "-1", "N/A - address does not reside within a council district, likely within an unincorporated area or outside of Travis County", strconv.FormatFloat(district.Candidate.Score, 'f', 3, 64), "🚩"})
+		} else {
+			err = proc.Write([]string{address, city, state, zip, strconv.FormatInt(district.Features[0].Attributes.CouncilDistrict, 10), district.Features[0].Attributes.CouncilDistrictPath, strconv.FormatFloat(district.Candidate.Score, 'f', 3, 64), ""})
+		}
+
 		if err != nil {
 			log.Fatal(err)
 		}
