@@ -87,7 +87,7 @@ func main() {
 
 		match, err := matches.GetLikelyCandidate()
 		if err != nil {
-			log.Printf("⚠️ warn: no match found for %s %s %s %s, will 🚩 address as invalid (confidence_core: 0) for manual review", address, city, state, zip)
+			log.Printf("⚠️ warn: no match found for %s %s %s %s, will 🚩 address as invalid (confidence_score: 0) for manual review", address, city, state, zip)
 			err = proc.Write([]string{address, city, state, zip, "", "", "0", "🚩"})
 			if err != nil {
 				log.Fatal(err)
