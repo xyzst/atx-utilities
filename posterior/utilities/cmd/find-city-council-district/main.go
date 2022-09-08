@@ -50,15 +50,15 @@ func main() {
 		query := request.URL.Query()
 
 		query.Add("f", "json")
-		query.Add("Address", address)
+		query.Add("Street", address)
 		query.Add("City", city)
-		query.Add("Region", state)
-		query.Add("Postal", zip)
+		query.Add("State", state)
+		query.Add("ZIP", zip)
 		query.Add("matchOutOfRange", "false")
 
 		request.URL.RawQuery = query.Encode()
 
-		request.Header.Set("Accept", "application/json")
+		request.Header.Set("Accept", "application/json;q=0.9,*/*;q=0.8")
 		request.Header.Set("Accept-Language", "en-US,en;q=0.9")
 		request.Header.Set("Accept-Encoding", "gzip, deflate, br")
 
