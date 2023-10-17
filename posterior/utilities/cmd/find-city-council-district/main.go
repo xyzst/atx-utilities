@@ -119,7 +119,7 @@ func main() {
 		request.URL.RawQuery = query.Encode()
 
 		request.Header.Set("Content-Type", "application/x-www-form-urlencoded")
-		request.Header.Set("Accept", "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8")
+		request.Header.Set("Accept", "application/json")
 		request.Header.Set("Accept-Language", "en-US,en;q=0.9")
 		request.Header.Set("Accept-Encoding", "gzip, deflate, br")
 
