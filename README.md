@@ -58,10 +58,21 @@ address,city,state,zip_code,district,district_url,confidence_score
 13429 N US 183,,,,6,http://www.austintexas.gov/department/district-6,93.650
 ```
 
-### run w/ pants (no need to install go)
+### run w/ docker (go not needed!)
 
-```text
-$ ./pants run posterior/utilities/cmd/find-city-council-district:bin  --run-args='/relative/or/absolute/path/to.csv'
+```shell
+git clone git@github.com:xyzst/atx-utilities.git
+cd atx-utilities
+cp /path/to/your/your_csv_here.csv .
+cp /path/to/your/another_csv_here.csv .
+
+# update environment variable 'TARGET_CSV' to reflect the csv you wish to process.
+# In this case, I want to process "your_csv_here.csv" which was copied in the previous commands to current working directory
+docker run -e TARGET_CSV='rethink.csv' -v $PWD/output/o.csv:/usr/src/atx-utilities/output.csv --rm -it $(docker build -q .)
+
+# after your TARGET_CSV is processed in the container, the output will be found in
+# the output directory
+more output/o.csv
 ```
 
 ### run w/o pants (requires go)
